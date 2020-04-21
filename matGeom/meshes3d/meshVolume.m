@@ -53,4 +53,4 @@ for i = 1:nFaces
     vols(i) = det(tetra) / 6;
 end
 
-vol = sum(vols);
+vol = sum(abs(vols));
