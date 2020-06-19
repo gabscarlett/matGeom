@@ -26,8 +26,10 @@ function mat = eulerAnglesToRotation3d(phi, theta, psi, varargin)
 %   Concatenates all angles in a single 1-by-3 array.
 %   
 %   ... = eulerAnglesToRotation3d(ANGLES, CONVENTION)
-%   CONVENTION specifies the axis rotation sequence. 
-%   Supported conventions are: 'ZYX', 'YXZ', 'ZYZ'. Default is 'ZYX'.
+%   CONVENTION specifies the axis rotation sequence. Default is 'ZYX'.
+%   Supported conventions are: 
+%       'ZYX','ZXY','YXZ','YZX','XYZ','XZY'
+%       'ZYZ','ZXZ','YZY','YXY','XZX','XYX'
 %
 %   Example
 %   [n e f] = createCube;
@@ -64,7 +66,9 @@ if size(phi, 2) == 3
 end
 
 p = inputParser;
-validStrings = {'ZYX','ZXY','YXZ','YZX','XYZ','XZY','ZYZ'};
+validStrings = {...
+    'ZYX','ZXY','YXZ','YZX','XYZ','XZY',...
+    'ZYZ','ZXZ','YZY','YXY','XZX','XYX'};
 addOptional(p,'convention','ZYX',@(x) any(validatestring(x,validStrings)));
 parse(p,varargin{:});
 convention=p.Results.convention;
@@ -101,6 +105,26 @@ switch convention
         rot1 = createRotationOz(psi * k);
         rot2 = createRotationOy(theta * k);
         rot3 = createRotationOz(phi * k);
+    case 'ZXZ'
+        rot1 = createRotationOz(psi * k);
+        rot2 = createRotationOx(theta * k);
+        rot3 = createRotationOz(phi * k);
+    case 'YZY'
+        rot1 = createRotationOy(psi * k);
+        rot2 = createRotationOz(theta * k);
+        rot3 = createRotationOy(phi * k);
+    case 'YXY'
+        rot1 = createRotationOy(psi * k);
+        rot2 = createRotationOx(theta * k);
+        rot3 = createRotationOy(phi * k);
+    case 'XZX'
+        rot1 = createRotationOx(psi * k);
+        rot2 = createRotationOz(theta * k);
+        rot3 = createRotationOx(phi * k);
+    case 'XYX'
+        rot1 = createRotationOx(psi * k);
+        rot2 = createRotationOy(theta * k);
+        rot3 = createRotationOx(phi * k);
 end
 
 % concatenate matrices
