@@ -17,7 +17,7 @@ function varargout = readMesh(fileName)
 %     view([180 -70]); axis equal;
 %
 %   See also
-%     meshes3d, writeMesh, readMesh_off, readMesh_ply
+%     meshes3d, writeMesh, readMesh_off, readMesh_ply, readMesh_stl
 %
  
 % ------
@@ -33,6 +33,8 @@ switch lower(ext)
         mesh = readMesh_off(fileName);
     case '.ply'
         mesh = readMesh_ply(fileName);
+    case '.stl'
+        mesh = readMesh_stl(fileName);
     otherwise
         error('Unrecognized file format for rezading mesh: %s', ext);
 end
